@@ -10,6 +10,7 @@ BRANCHNAME="master"
 AUTOBUILD="True"
 PROJECTFILE="project.csproj"
 LOGFILEPATH="c:/where/you/want/logfile.log"
+PULLSCRIPTPATH="c:/path/to/pull/script.sh"
 # End of configs
 
 # Log date and time script is executed
@@ -34,15 +35,18 @@ fi
 
 # Get value True or False based on the result of checking if there are any changes in remote branch and possibly pulling it
 pullScriptResult=$(./AutoPullScript.sh)
+echo "Pull script result = $pullScriptResult" >> $LOGFILEPATH
 
 # If the changes have been pulled and AUTOBUILD config is set to true, then build and log result
 if [ "$pullScriptResult" == "True" ] && [ "$AUTOBUILD" == "True" ]; then
     echo "Attempting to build changes in branch ($BRANCHNAME) of repo ($REPO)" >> $LOGFILEPATH
-    buildLog=$(dotnet build $BUILDSCRIPTPATH/$healthTracker.csproj)
+    cd $BUILDSCRIPTPATH
+    buildLog=$(dotnet build $PROJECTFILE)
 
     if [[ "$buildLog" == *"Build succeeded."* ]]; then
         echo "Build succeeded." >> $LOGFILEPATH
     else
+        echo $buildLog >> $LOGFILEPATH
         echo "Build failed." >> $LOGFILEPATH
     fi
 

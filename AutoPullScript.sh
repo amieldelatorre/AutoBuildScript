@@ -33,6 +33,9 @@ cd $GITFOLDERPATH
 gitCheckout=$(git checkout $BRANCHNAME)
 echo $gitCheckout >> $LOGFILEPATH
 
+# Fetch any changes
+git fetch origin $BRANCHNAME
+
 # Get the result of a git diff between remote and local branch
 gitDiff=$(git diff $BRANCHNAME origin/$BRANCHNAME)
 
