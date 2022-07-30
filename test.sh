@@ -5,6 +5,6 @@ test="Updating cd304f6..ea6fab8 Fast-forward README.md | 1 + 1 file changed, 1 i
 if [ "$test" == *"file changed"* ]; then
     echo "Made it here" 
 else
-    echo "Did not make it"
+    echo "Did not make its"
 fi
 
